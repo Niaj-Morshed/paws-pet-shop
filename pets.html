@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAWS & CLAWS | Elite Pet Boutique</title>
+
+
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/616/616408.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Root Variables for Theme Management --- */
+        :root {
+            --bg: #ffffff;
+            --surface: #ebeff2;
+            --text: #0f172a;
+            --primary: #fb923c;
+            --accent: #2dd4bf;
+            --card: #ffffff;
+            --border: rgba(0, 0, 0, 0.05);
+            --shadow: rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] {
+            --bg: #020617;
+            --surface: #141e33;
+            --text: #f8fafc;
+            --card: #1e293b;
+            --border: rgba(255, 255, 255, 0.05);
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- Global Reset and Base Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* --- Custom Scrollbar --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        /* --- Navigation Bar --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(var(--surface-rgb), 0.8);
+            opacity: 0.95;
+            backdrop-filter: blur(15px);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+
+
+
+        .logo {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .nav-tools {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text);
+        }
+
+        .cart-trigger {
+            position: relative;
+            cursor: pointer;
+        }
+
+        #cartCount {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--primary);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            padding: 120px 5% 50px;
+            text-align: center;
+            background: radial-gradient(circle at top right, var(--primary), transparent 40%);
+        }
+
+        .hero h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            line-height: 1.1;
+        }
+
+        .hero span {
+            color: var(--primary);
+        }
+
+        /* --- Category Filters --- */
+        .filter-box {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px 15px;
+            overflow-x: auto;
+            position: sticky;
+            top: 70px;
+            background: var(--bg);
+            z-index: 900;
+            scrollbar-width: none;
+        }
+
+
+        @media (max-width: 768px) {
+            .filter-box {
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+                /* মোবাইলে ২ কলাম */
+                gap: 15px;
+                padding: 10px;
+            }
+
+            .item {
+                animation-duration: 0.4s;
+                /* মোবাইলে দ্রুত অ্যানিমেশন */
+            }
+
+            /* মোবাইলে ক্লিক করলে যেন সাথে সাথে ফিডব্যাক পাওয়া যায় */
+            .item:active {
+                transform: scale(0.95);
+                opacity: 0.8;
+            }
+        }
+
+
+
+        .filter-box::-webkit-scrollbar {
+            display: none;
+            /* Chrome/Safari-te scrollbar hide jate dekhte clean lage */
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(251, 146, 60, 0.3);
+        }
+
+        /* --- Grid Layout System (Responsive for All Devices) --- */
+        .grid-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px 15px 100px;
+            display: grid;
+            gap: 15px;
+            grid-template-columns: repeat(2, 1fr);
+            /* Mobile: 2 Columns */
+            grid-auto-rows: 200px;
+        }
+
+        @media (min-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(3, 1fr);
+                /* Tablet: 3 Columns */
+                grid-auto-rows: 220px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .grid-container {
+                grid-template-columns: repeat(4, 1fr);
+                /* Laptop: 4 Columns */
+                grid-auto-rows: 250px;
+                gap: 25px;
+            }
+        }
+
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+
+        /* --- Product Card Styles --- */
+        .item {
+            background: var(--card);
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px var(--shadow);
+            animation: fadeInUp 0.6s ease backwards;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px var(--shadow);
+
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .item.wide {
+            grid-column: span 2;
+        }
+
+        .item.tall {
+            grid-row: span 2;
+        }
+
+        .item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .item:hover img {
+            transform: scale(1.1);
+            filter: brightness(0.8);
+        }
+
+        .item-info {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            color: white;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        .item:hover .item-info {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .price {
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-top: 5px;
+        }
+
+        .tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 800;
+            z-index: 10;
+        }
+
+        /* --- Add to Cart Button --- */
+        .add-btn {
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        /* --- Cart Modal System --- */
+        #cartOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        #cartDrawer {
+            position: fixed;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            max-width: 400px;
+            background: var(--bg);
+            z-index: 2001;
+            padding: 30px;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+            transform: translateX(100%);
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #cartDrawer.open {
+            transform: translateX(0);
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cart-item img {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .cart-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .cart-controls button {
+            width: 25px;
+            height: 25px;
+            border-radius: 5px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        footer {
+            padding: 60px 5%;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            opacity: 0.6;
+        }
+
+
+        /* --- Wishlist Icon Styles --- */
+        .wishlist-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.9);
+            color: #ff4757;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] .wishlist-btn {
+            background: var(--card);
+            color: #ff4757;
+        }
+
+        .wishlist-btn i {
+            transition: transform 0.2s ease;
+        }
+
+        .wishlist-btn:hover i {
+            transform: scale(1.2);
+        }
+
+
+
+        /* --- Wishlist Drawer Styles --- */
+        #wishlistOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        #wishlistDrawer {
+            position: fixed;
+            left: 0;
+            /* Opens from the left side */
+            top: 0;
+            height: 100%;
+            width: 100%;
+            max-width: 400px;
+            background: var(--bg);
+            z-index: 2001;
+            padding: 30px;
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
+            transform: translateX(-100%);
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #wishlistDrawer.open {
+            transform: translateX(0);
+        }
+
+        .wishlist-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .wishlist-item img {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        /* --- Update Navigation Tools --- */
+        .wishlist-trigger {
+            position: relative;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+
+        /* সাজেশনের প্রতিটি আইটেমের ডিজাইন */
+        .suggestion-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .suggestion-item:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .suggestion-item img {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        /* মোবাইল ডিভাইসে সার্চ বার ছোট করার জন্য */
+        @media (max-width: 600px) {
+            .search-container {
+                max-width: 150px !important;
+                margin: 0 10px !important;
+            }
+        }
+
+        .search-container input {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-container input:focus {
+            box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.2);
+            transform: scale(1.02);
+        }
+
+
+
+
+
+
+
+        /* হার্ট পালস অ্যানিমেশন */
+        @keyframes heartPulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.4);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .pulse {
+            animation: heartPulse 0.4s ease-out;
+        }
+
+        /* কার্ট বাউন্স অ্যানিমেশন */
+        @keyframes cartBounce {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        .bounce {
+            animation: cartBounce 0.4s ease-out;
+            display: inline-block;
+        }
+
+
+
+        @media (hover: hover) {
+            .item:hover {
+                transform: translateY(-10px) scale(1.02);
+                box-shadow: 0 20px 40px var(--shadow);
+                border-color: var(--primary);
+            }
+        }
+
+
+
+
+
+
+        /* Ratings Styling */
+        .stars {
+            color: #ffbc00;
+            font-size: 0.9rem;
+            margin: 5px 0;
+        }
+
+        .review-count {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-left: 5px;
+        }
+
+        /* Checkout Form Styling */
+        #checkoutSection {
+            display: none;
+            padding: 20px;
+            background: var(--surface);
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .checkout-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .payment-btn {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: none;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .payment-btn.active {
+            border-color: var(--primary);
+            background: rgba(108, 92, 231, 0.1);
+            color: var(--primary);
+        }
+
+
+
+
+        /* কার্ট আইটেম লিস্টের উচ্চতা নির্দিষ্ট করে দেওয়া যাতে ফর্মটি নিচে দেখা যায় */
+        #cartItemsList {
+            max-height: 45vh;
+            /* স্ক্রিনের উচ্চতার ৪৫% পর্যন্ত আইটেম লিস্ট দেখাবে */
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        /* চেকআউট সেকশনটি কার্ট ড্রয়ারের নিচে ফিক্সড রাখার জন্য */
+        #cartFooter {
+            background: var(--card);
+            position: sticky;
+            bottom: 0;
+            padding-top: 15px;
+            border-top: 2px solid var(--border);
+            z-index: 10;
+        }
+
+        /* স্ক্রলবারটি সুন্দর করার জন্য (ঐচ্ছিক) */
+        #cartItemsList::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        #cartItemsList::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+
+
+
+
+
+
+        /* স্টার এবং রিভিউ সেকশনের ডিজাইন */
+        .stars {
+            color: #ffb800;
+            /* গোল্ডেন কালার */
+            font-size: 0.85rem;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .review-count {
+            color: #64748b;
+            font-size: 0.75rem;
+            margin-left: 5px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .review-item {
+            border-bottom: 1px solid var(--border);
+            padding: 10px 0;
+        }
+
+        .review-item:last-child {
+            border-bottom: none;
+        }
+
+
+        [data-theme='dark'] .review-count {
+            /* ডার্ক মোডে টেক্সট হালকা সাদা বা সিলভার হবে */
+            color: #cbd5e1;
+        }
+
+
+
+
+        .toast {
+            background: var(--card);
+            /* আপনার থিম অনুযায়ী কালার নিবে */
+            color: var(--text);
+            padding: 12px 20px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 10px 25px var(--shadow);
+            border-left: 4px solid var(--primary);
+            /* পাশে একটি কালার বার থাকবে */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            min-width: 200px;
+            animation: toastSlideIn 0.4s ease-out forwards;
+        }
+
+        @keyframes toastSlideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast.fade-out {
+            animation: toastFadeOut 0.5s ease-in forwards;
+        }
+
+        @keyframes toastFadeOut {
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+
+
+        /* Skeleton Loading Animation */
+        .skeleton {
+            background: linear-gradient(90deg, var(--surface) 25%, var(--border) 50%, var(--surface) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 12px;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .skeleton-card {
+            height: 300px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+
+    <nav>
+        <div class="logo"><i class="fas fa-paw"></i> PAWS.</div>
+
+        <div class="search-container" style="position: relative; flex: 1; max-width: 400px; margin: 0 20px;">
+            <div style="position: relative; display: flex; align-items: center;">
+                <i class="fas fa-search" style="position: absolute; left: 15px; color: #94a3b8;"></i>
+                <input type="text" id="searchInput" placeholder="Search products..." style="width: 100%; padding: 10px 15px 10px 40px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--text); outline: none;">
+            </div>
+            <div id="suggestionBox" style="position: absolute; top: 100%; left: 0; width: 100%; background: var(--card); border-radius: 12px; box-shadow: 0 10px 25px var(--shadow); display: none; z-index: 1100; margin-top: 5px; border: 1px solid var(--border); overflow: hidden;">
+            </div>
+        </div>
+
+        <div class="nav-tools">
+            <div class="theme-toggle" id="modeBtn"><i class="fas fa-moon"></i></div>
+            <div class="wishlist-trigger" onclick="toggleWishlistDrawer()">
+                <i class="fas fa-heart" style="color: #ff4757;"></i>
+            </div>
+            <div class="cart-trigger" onclick="toggleCart()">
+                <i class="fas fa-shopping-bag"></i>
+                <span id="cartCount">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <p style="font-weight: 700; letter-spacing: 2px; color: var(--primary);">ESTB. 2026</p>
+        <h1>Everything Your <br> <span>Pet Deserves.</span></h1>
+    </header>
+
+    <div class="filter-box">
+        <button class="filter-btn active" onclick="filter('all')">All Friends</button>
+        <button class="filter-btn" onclick="filter('dog')">Dogs</button>
+        <button class="filter-btn" onclick="filter('cat')">Cats</button>
+        <button class="filter-btn" onclick="filter('bird')">Birds</button>
+        <button class="filter-btn" onclick="filter('hamster')">Hamsters</button>
+        <button class="filter-btn" onclick="filter('fish')">Fishes</button>
+    </div>
+
+    <div class="grid-container" id="mainGrid"></div>
+
+    <div id="cartOverlay" onclick="toggleCart()"></div>
+
+
+
+    <div id="cartDrawer">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="font-family: 'Fredoka';">Your Cart</h2>
+            <i class="fas fa-times" style="cursor: pointer;" onclick="toggleCart()"></i>
+        </div>
+
+        <div id="cartItemsList">
+        </div>
+
+        <div id="cartFooter">
+            <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 1.2rem; margin-bottom: 15px;">
+                <span>Total:</span>
+                <span id="cartTotalText">$0.00</span>
+            </div>
+
+            <div id="checkoutSection" style="display: none; max-height: 50vh; overflow-y: auto; padding: 10px; border-top: 2px dashed var(--border);">
+                <h3 style="margin-bottom: 15px; font-size: 1.1rem; color: var(--primary);">Checkout Details 🧾</h3>
+
+                <input type="text" id="custName" placeholder="Your Full Name" class="checkout-input" required>
+                <input type="tel" id="custPhone" placeholder="Phone Number (01xxx...)" class="checkout-input" required>
+                <textarea id="custAddress" placeholder="Full Delivery Address" class="checkout-input" rows="2" required></textarea>
+
+                <h4 style="margin: 15px 0 10px; font-size: 0.9rem;">Select Payment Method:</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+                    <label style="border: 1px solid var(--border); padding: 10px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                        <input type="radio" name="payment" value="bkash" checked>
+                        <span style="font-size: 13px;">bKash / Nagad</span>
+                    </label>
+                    <label style="border: 1px solid var(--border); padding: 10px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                        <input type="radio" name="payment" value="card">
+                        <span style="font-size: 13px;">Online Card</span>
+                    </label>
+                </div>
+
+                <button class="add-btn" onclick="processOrder()" style="margin-bottom: 10px; background: var(--primary);">Confirm Order</button>
+            </div>
+
+            <button id="checkoutTriggerBtn" class="add-btn" style="padding: 15px;" onclick="showCheckout()">Checkout Now</button>
+        </div>
+    </div>
+
+
+
+
+
+    <div id="wishlistOverlay" onclick="toggleWishlistDrawer()"></div>
+    <div id="wishlistDrawer">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h2 style="font-family: 'Fredoka';">Your Favorites</h2>
+            <i class="fas fa-times" style="cursor: pointer;" onclick="toggleWishlistDrawer()"></i>
+        </div>
+        <div id="wishlistItemsList" style="max-height: 80vh; overflow-y: auto;">
+        </div>
+    </div>
+
+
+    <footer>
+        <p>PAWS & CLAWS PREMIUM ECOSYSTEM</p>
+        <p style="font-size: 12px; margin-top: 5px;"> <i class="fas fa-paw"></i> PAWS. | © 2026-Developed by Niaj Morshed</p>
+    </footer>
+
+    <script>
+        // --- Product Database ---
+        const products = [{
+                id: 1,
+                name: "Retriever Kit",
+                price: 120.00,
+                cat: "dog",
+                type: "wide",
+                img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?q=80&w=600"
+            },
+            {
+                id: 2,
+                name: "Winter Coat",
+                price: 55.00,
+                cat: "dog",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=600"
+            },
+            {
+                id: 4,
+                name: "Persian Bed",
+                price: 85.00,
+                cat: "cat",
+                type: "tall",
+                img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=600"
+            },
+            {
+                id: 3,
+                name: "Hamster Munchies",
+                price: 15.00,
+                cat: "hamster",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?q=80&w=600"
+            },
+            {
+                id: 5,
+                name: "Smart Feeder Pro",
+                price: 199.00,
+                cat: "cat",
+                type: "wide",
+                img: "https://images.unsplash.com/photo-1519052537078-e6302a4968d4?q=80&w=600"
+            },
+            {
+                id: 6,
+                name: "Cat Tower 5-Tier",
+                price: 150.00,
+                cat: "cat",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1545249390-6bdfa286032f?q=80&w=600"
+            },
+            {
+                id: 7,
+                name: "Cozy Hamster Nest",
+                price: 25.00,
+                cat: "hamster",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1535241749838-299277b6305f?q=80&w=600"
+            },
+            {
+                id: 8,
+                name: "Tall Bird Perch",
+                price: 40.00,
+                cat: "bird",
+                type: "tall",
+                img: "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?q=80&w=600"
+            },
+            {
+                id: 9,
+                name: "Parrot Swing",
+                price: 25.00,
+                cat: "bird",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?q=80&w=600"
+            },
+            {
+                id: 10,
+                name: "Hamster Wheel",
+                price: 19.99,
+                cat: "hamster",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?q=80&w=600"
+            },
+            {
+                id: 12,
+                name: "Coral Tank Elite",
+                price: 450.00,
+                cat: "fish",
+                type: "wide",
+                img: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?q=80&w=600"
+            },
+            {
+                id: 13,
+                name: "German Shepherd Pro",
+                price: 130.00,
+                cat: "dog",
+                type: "wide",
+                img: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=600"
+            },
+            {
+                id: 14,
+                name: "Pug Grooming Kit",
+                price: 115.00,
+                cat: "dog",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1517849845537-4d257902454a?q=80&w=600"
+            },
+            {
+                id: 15,
+                name: "Beagle Travel Bag",
+                price: 100.00,
+                cat: "dog",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1525253086316-d0c936c814f8?q=80&w=600"
+            },
+            {
+                id: 16,
+                name: "Golden Puppy Set",
+                price: 130.00,
+                cat: "dog",
+                type: "wide",
+                img: "https://images.unsplash.com/photo-1507146426996-ef05306b995a?q=80&w=600"
+            },
+            {
+                id: 17,
+                name: "Husky Winter Gear",
+                price: 115.00,
+                cat: "dog",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1561037404-61cd46aa615b?q=80&w=600"
+            },
+            {
+                id: 18,
+                name: "Labrador Food Box",
+                price: 100.00,
+                cat: "dog",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?q=80&w=600"
+            },
+            {
+                id: 19,
+                name: "Cool Cat Shades",
+                price: 30.00,
+                cat: "cat",
+                type: "tall",
+                img: "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?q=80&w=600"
+            },
+            {
+                id: 20,
+                name: "Orange Tabby Sofa",
+                price: 110.00,
+                cat: "cat",
+                type: "wide",
+                img: "https://images.unsplash.com/photo-1494256997604-768d1f608cac?q=80&w=600"
+            },
+            {
+                id: 21,
+                name: "Kitty Play Tent",
+                price: 45.00,
+                cat: "cat",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?q=80&w=600"
+            },
+            {
+                id: 22,
+                name: "Ginger Cat Scratcher",
+                price: 75.00,
+                cat: "cat",
+                type: "tall",
+                img: "https://images.unsplash.com/photo-1543852786-1cf6624b9987?q=80&w=600"
+            },
+            {
+                id: 23,
+                name: "Luxury Cat Cushion",
+                price: 95.00,
+                cat: "cat",
+                type: "wide",
+                img: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?q=80&w=600"
+            },
+            {
+                id: 24,
+                name: "Calico Toy Mouse",
+                price: 12.00,
+                cat: "cat",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1511044568932-338cba0ad803?q=80&w=600"
+            },
+            {
+                id: 25,
+                name: "Puppy Health Check",
+                price: 250.00,
+                cat: "dog",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1598133894008-61f7fdb8cc3a?q=80&w=600"
+            },
+            {
+                id: 26,
+                name: "Wild Bird Feeder",
+                price: 55.00,
+                cat: "bird",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1444464666168-49d633b86797?q=80&w=600"
+            }
+        ];
+
+
+        function showSkeleton() {
+            grid.innerHTML = '';
+            for (let i = 0; i < 8; i++) { // ৮টি ডামি কার্ড দেখাবে
+                const skel = document.createElement('div');
+                skel.className = 'item skeleton-card skeleton';
+                grid.appendChild(skel);
+            }
+        }
+
+
+
+
+        // --- State Management ---
+        let cart = JSON.parse(localStorage.getItem('paws_cart')) || [];
+        let wishlist = JSON.parse(localStorage.getItem('paws_wishlist')) || [];
+
+        const grid = document.getElementById('mainGrid');
+        const modeBtn = document.getElementById('modeBtn');
+
+
+
+
+        // --- Core Rendering Function ---
+        function render(data) {
+            showSkeleton();
+
+            setTimeout(() => {
+                grid.innerHTML = '';
+                if (data.length === 0) {
+                    grid.innerHTML = '<div style="text-align:center; grid-column: 1/-1; padding: 50px;"> <i class="fas fa-search" style="font-size: 3rem; color: var(--primary); opacity: 0.3;"></i> <p style="margin-top:15px;">No products found!</p></div>';
+                    return;
+                }
+
+                data.forEach((p, idx) => {
+                    const isWishlisted = wishlist.includes(p.id);
+                    const reviewNum = Math.floor(Math.random() * 150) + 20;
+
+                    const div = document.createElement('div');
+                    div.className = `item ${p.type}`;
+                    // ইনডেক্স অনুযায়ী ছোট একটা ডিলে সেট করা যাতে একটা একটা করে কার্ড আসে
+                    div.style.animationDelay = `${idx * 0.08}s`;
+
+                    div.innerHTML = `
+                <div class="wishlist-btn" onclick="handleWishlistClick(${p.id})" style="backdrop-filter: blur(5px); background: rgba(255,255,255,0.7);">
+                    <i class="${isWishlisted ? 'fas' : 'far'} fa-heart"></i>
+                </div>
+                <div class="tag" style="background: var(--primary); font-weight: 600;">${p.cat.toUpperCase()}</div>
+                <div style="overflow:hidden; height: 200px;">
+                    <img src="${p.img}" alt="${p.name}" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <div class="item-info" style="padding: 20px;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 8px;">${p.name}</h3>
+                    <div class="stars" style="color: #ffb800; font-size: 0.8rem; margin-bottom: 10px;">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span style="color: #94a3b8; margin-left: 5px;">(${reviewNum})</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div class="price" style="font-size: 1.3rem; font-weight: 800; color: var(--primary);">$${p.price.toFixed(2)}</div>
+                        <button class="add-btn" onclick="addToCart(${p.id})" style="width:auto; padding: 10px 20px; border-radius: 10px;">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+                    grid.appendChild(div);
+                });
+            }, 500); // ৮০০ থেকে কমিয়ে ৫০০ করলাম যাতে লোডিং ফাস্ট লাগে
+        }
+
+
+
+
+        function showToast(message, icon = '🔔') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+
+            container.appendChild(toast);
+
+            // ৪ সেকেন্ড পর অটো মুছে যাবে
+            setTimeout(() => {
+                toast.classList.add('fade-out');
+                setTimeout(() => toast.remove(), 500);
+            }, 3500);
+        }
+
+
+
+
+
+        // --- Wishlist Logic ---
+        function toggleWishlistDrawer() {
+            const drawer = document.getElementById('wishlistDrawer');
+            const overlay = document.getElementById('wishlistOverlay');
+            drawer.classList.toggle('open');
+            overlay.style.display = drawer.classList.contains('open') ? 'block' : 'none';
+        }
+
+
+        function handleWishlistClick(id) {
+            const btn = event.currentTarget.querySelector('i');
+            const product = products.find(p => p.id === id);
+
+            if (wishlist.includes(id)) {
+                wishlist = wishlist.filter(itemId => itemId !== id);
+                showToast(`${product.name} removed from favorites`, '💔');
+            } else {
+                wishlist.push(id);
+                btn.classList.add('pulse');
+                setTimeout(() => btn.classList.remove('pulse'), 400);
+                showToast(`${product.name} added to favorites!`, '❤️');
+            }
+            saveAndUpdate();
+        }
+
+
+        function updateWishlistUI() {
+            const list = document.getElementById('wishlistItemsList');
+            list.innerHTML = '';
+
+            wishlist.forEach(id => {
+                const item = products.find(p => p.id === id);
+                if (!item) return;
+                list.innerHTML += `
+                    <div class="wishlist-item">
+                        <img src="${item.img}">
+                        <div style="flex:1">
+                            <h4 style="font-size: 14px;">${item.name}</h4>
+                            <p style="color:var(--primary); font-weight:700;">$${item.price.toFixed(2)}</p>
+                            <button onclick="handleWishlistClick(${item.id})" style="border:none; background:none; color:#ff4757; cursor:pointer; font-size:12px; padding:0;">Remove</button>
+                        </div>
+                        <button class="add-btn" style="width:auto; padding:5px 10px;" onclick="addToCart(${item.id})">Buy</button>
+                    </div>
+                `;
+            });
+        }
+
+        // --- Cart Logic ---
+        function toggleCart() {
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+            drawer.classList.toggle('open');
+            overlay.style.display = drawer.classList.contains('open') ? 'block' : 'none';
+        }
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const exists = cart.find(item => item.id === id);
+
+            if (exists) exists.qty++;
+            else cart.push({
+                ...product,
+                qty: 1
+            });
+
+            const cartIcon = document.querySelector('.cart-trigger');
+            cartIcon.classList.add('bounce');
+            setTimeout(() => cartIcon.classList.remove('bounce'), 400);
+
+            showToast(`${product.name} added to cart ✅`, '🛒');
+            saveAndUpdate();
+        }
+
+        function updateCartQty(id, change) {
+            const item = cart.find(i => i.id === id);
+            item.qty += change;
+            if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+            saveAndUpdate();
+        }
+
+
+
+
+        function updateCartUI() {
+            const list = document.getElementById('cartItemsList');
+            const count = document.getElementById('cartCount');
+            const totalText = document.getElementById('cartTotalText');
+            list.innerHTML = '';
+            let total = 0;
+            let totalItems = 0;
+
+            cart.forEach(item => {
+                total += item.price * item.qty;
+                totalItems += item.qty;
+                list.innerHTML += `
+            <div class="cart-item">
+                <img src="${item.img}">
+                <div style="flex:1">
+                    <div style="display:flex; justify-content:space-between; align-items:start;">
+                        <h4 style="font-size: 14px;">${item.name}</h4>
+                        <span style="font-size: 10px; color:#ffb800;"><i class="fas fa-star"></i> 4.8</span>
+                    </div>
+                    <p style="color:var(--primary); font-weight:700;">$${(item.price * item.qty).toFixed(2)}</p>
+                    <div class="cart-controls">
+                        <button onclick="updateCartQty(${item.id}, -1)">-</button>
+                        <span>${item.qty}</span>
+                        <button onclick="updateCartQty(${item.id}, 1)">+</button>
+                    </div>
+                </div>
+            </div>
+        `;
+            });
+            count.innerText = totalItems;
+            totalText.innerText = `$${total.toFixed(2)}`;
+        }
+
+
+
+
+
+        // --- Global Helpers ---
+        function saveAndUpdate() {
+            localStorage.setItem('paws_cart', JSON.stringify(cart));
+            localStorage.setItem('paws_wishlist', JSON.stringify(wishlist));
+            updateCartUI();
+            updateWishlistUI();
+
+            // Re-render grid to update heart icons
+            const activeBtn = document.querySelector('.filter-btn.active');
+            const currentFilter = activeBtn.innerText.toLowerCase().replace('all friends', 'all');
+            if (currentFilter === 'all') render(products);
+            else render(products.filter(p => p.cat === currentFilter));
+        }
+
+        function filter(cat) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            render(cat === 'all' ? products : products.filter(i => i.cat === cat));
+        }
+
+        modeBtn.addEventListener('click', () => {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            modeBtn.innerHTML = isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        });
+
+
+
+
+
+
+        // সার্চ এলিমেন্টগুলো ধরা
+        const searchInput = document.getElementById('searchInput');
+        const suggestionBox = document.getElementById('suggestionBox');
+
+        // যখন ইনপুট বক্সে কিছু টাইপ করা হবে
+        searchInput.addEventListener('input', function(e) {
+            const val = e.target.value.toLowerCase();
+            suggestionBox.innerHTML = ''; // আগের সাজেশন মুছে ফেলা
+
+            if (val.length >= 1) {
+                // প্রোডাক্ট লিস্ট থেকে নাম ফিল্টার করা
+                const matches = products.filter(p => p.name.toLowerCase().includes(val)).slice(0, 6);
+
+                if (matches.length > 0) {
+                    suggestionBox.style.display = 'block';
+                    matches.forEach(p => {
+                        const div = document.createElement('div');
+                        div.className = 'suggestion-item';
+                        div.innerHTML = `
+                    <img src="${p.img}">
+                    <span>${p.name}</span>
+                `;
+                        // সাজেশনে ক্লিক করলে সেই প্রোডাক্টে নিয়ে যাবে
+                        div.onclick = () => {
+                            searchInput.value = p.name;
+                            suggestionBox.style.display = 'none';
+                            render([p]);
+                        };
+                        suggestionBox.appendChild(div);
+                    });
+                } else {
+                    suggestionBox.style.display = 'none';
+                }
+            } else {
+                suggestionBox.style.display = 'none';
+                render(products); // ইনপুট একদম খালি করলে সব প্রোডাক্ট আবার দেখাবে
+            }
+        });
+
+        // এন্টার কি প্রেস করলে সার্চ রেজাল্ট দেখানো
+        searchInput.onkeypress = (e) => {
+            if (e.key === 'Enter') {
+                const filtered = products.filter(p => p.name.toLowerCase().includes(searchInput.value.toLowerCase()));
+                render(filtered);
+                suggestionBox.style.display = 'none';
+            }
+        };
+
+        // সার্চ বক্সের বাইরে ক্লিক করলে সাজেশন হাইড করা
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-container')) {
+                suggestionBox.style.display = 'none';
+            }
+        });
+
+
+
+        // Initialize Everything
+        render(products);
+        updateCartUI();
+        updateWishlistUI();
+
+
+
+
+
+        function showCheckout() {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+            const checkoutSec = document.getElementById('checkoutSection');
+            const itemList = document.getElementById('cartItemsList');
+
+            checkoutSec.style.display = 'block';
+            document.getElementById('checkoutTriggerBtn').style.display = 'none';
+
+            // চেকআউট ফর্ম খুললে আইটেম লিস্টের জায়গা কমিয়ে দেওয়া যাতে সব এটে যায়
+            itemList.style.maxHeight = "20vh";
+
+            // ফর্মের দিকে অটো স্ক্রল করবে
+            checkoutSec.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // processOrder ফাংশন আগের মতোই থাকবে, শুধু itemList এর হাইট রিসেট করে দিবেন
+        function processOrder() {
+            // ইনপুট ভ্যালুগুলো ধরা
+            const name = document.getElementById('custName').value.trim();
+            const phone = document.getElementById('custPhone').value.trim();
+            const address = document.getElementById('custAddress').value.trim();
+
+            // ভ্যালিডেশন চেক: যদি কোনোটি খালি থাকে
+            if (name === "" || phone === "" || address === "") {
+                showToast("Please fill in all details first! ⚠️", "❌");
+
+                // খালি ফিল্ডগুলোতে লাল বর্ডার হাইলাইট (ঐচ্ছিক)
+                if (name === "") document.getElementById('custName').style.borderColor = "#ff4757";
+                if (phone === "") document.getElementById('custPhone').style.borderColor = "#ff4757";
+                if (address === "") document.getElementById('custAddress').style.borderColor = "#ff4757";
+
+                return; // ফাংশন এখানেই থেমে যাবে, অর্ডার হবে না
+            }
+
+            // পেমেন্ট মেথড চেক (ফেক)
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+
+            // যদি সব ঠিক থাকে
+            showToast(`Order Placed via ${paymentMethod.toUpperCase()}! 🎉`, "🐾");
+            console.log("Order Details:", {
+                name,
+                phone,
+                address,
+                paymentMethod,
+                items: cart
+            });
+
+            // কার্ড এবং স্টেট ক্লিন করা
+            cart = [];
+            saveAndUpdate();
+            toggleCart();
+
+            // ফরম রিসেট করা পরবর্তী অর্ডারের জন্য
+            document.getElementById('checkoutSection').style.display = 'none';
+            document.getElementById('checkoutTriggerBtn').style.display = 'block';
+            document.getElementById('cartItemsList').style.maxHeight = "45vh";
+
+            // ইনপুট ফিল্ডগুলো খালি করে দেওয়া
+            document.getElementById('custName').value = "";
+            document.getElementById('custPhone').value = "";
+            document.getElementById('custAddress').value = "";
+        }
+    </script>
+</body>
+
+</html>
