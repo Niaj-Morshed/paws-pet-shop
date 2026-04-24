@@ -99,31 +99,39 @@ features like cart management, wishlist system, live search, and animated intera
   
 
 📸 Screenshot:
-      https://github.com/user-attachments/assets/3a34a152-bf0e-495b-a346-16ddd084adaa
-      https://github.com/user-attachments/assets/9bd211db-4bb4-4c6c-a675-9a39abc6177e
-      https://github.com/user-attachments/assets/b6f97dc2-215b-47d3-8811-1505645374d5
-      https://github.com/user-attachments/assets/58faa0fc-3bed-461c-82f3-4af3458742ed
-      https://github.com/user-attachments/assets/0ecb066b-9c8a-4d94-a8b3-f36a84846291
-      https://github.com/user-attachments/assets/4efe1449-a75e-494b-80bb-a239eefa9eb3
-      https://github.com/user-attachments/assets/5e546600-41ec-4afa-9983-0b3bec0ac692
-      https://github.com/user-attachments/assets/f3601d2c-d9aa-450e-a206-b46d3f91f10a
-      https://github.com/user-attachments/assets/0b2b4120-6c64-4210-82a1-208ada8cc4d5
+---------------
+<!-- Desktop Views -->
+<h3 align="center">💻 Desktop Views</h3>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/3a34a152-bf0e-495b-a346-16ddd084adaa" width="45%" />
+  <img src="https://github.com/user-attachments/assets/b6f97dc2-215b-47d3-8811-1505645374d5" width="45%" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/58faa0fc-3bed-461c-82f3-4af3458742ed" width="45%" />
+  <img src="https://github.com/user-attachments/assets/0ecb066b-9c8a-4d94-a8b3-f36a84846291" width="45%" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5e546600-41ec-4afa-9983-0b3bec0ac692" width="45%" />
+  <img src="https://github.com/user-attachments/assets/0b2b4120-6c64-4210-82a1-208ada8cc4d5" width="45%" />
+</p>
+
+<!-- Mobile Views -->
+<h3 align="center">📱 Mobile Views</h3>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/9bd211db-4bb4-4c6c-a675-9a39abc6177e" width="22%" />
+  <img src="https://github.com/user-attachments/assets/f3601d2c-d9aa-450e-a206-b46d3f91f10a" width="22%" />
+  <img src="https://github.com/user-attachments/assets/4efe1449-a75e-494b-80bb-a239eefa9eb3" width="22%" />
+</p>
 
 
 ***********“This is a fully interactive frontend e-commerce system with cart, wishlist, search, and checkout features built using pure JavaScript.”***********
 
 
      
-📸 Screenshot Source:
-<img width="403" height="853" alt="1 (2)" src="https://github.com/user-attachments/assets/9bd211db-4bb4-4c6c-a675-9a39abc6177e" />
-<img width="1915" height="921" alt="1 (1)" src="https://github.com/user-attachments/assets/b6f97dc2-215b-47d3-8811-1505645374d5" />
-<img width="1913" height="917" alt="1 (9)" src="https://github.com/user-attachments/assets/58faa0fc-3bed-461c-82f3-4af3458742ed" />
-<img width="1909" height="921" alt="1 (8)" src="https://github.com/user-attachments/assets/0ecb066b-9c8a-4d94-a8b3-f36a84846291" />
-<img width="1905" height="919" alt="1 (7)" src="https://github.com/user-attachments/assets/3a34a152-bf0e-495b-a346-16ddd084adaa" />
-<img width="1911" height="915" alt="1 (6)" src="https://github.com/user-attachments/assets/5e546600-41ec-4afa-9983-0b3bec0ac692" />
-<img width="404" height="858" alt="1 (5)" src="https://github.com/user-attachments/assets/f3601d2c-d9aa-450e-a206-b46d3f91f10a" />
-<img width="1860" height="924" alt="1 (4)" src="https://github.com/user-attachments/assets/0b2b4120-6c64-4210-82a1-208ada8cc4d5" />
-<img width="401" height="855" alt="1 (3)" src="https://github.com/user-attachments/assets/4efe1449-a75e-494b-80bb-a239eefa9eb3" />
+
+
 
 
 
