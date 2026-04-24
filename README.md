@@ -1,6 +1,6 @@
 🐾 PAWS & CLAWS – Premium Pet E-commerce Website with Cart, Wishlist & Smart Search
 ------------------------------------------------------------------------------------
-Live Demo: https://niaj-morshed.github.io/paws-pet-shop/
+Live Demo: https://niaj-morshed.github.io/Paws-Pet-Shop/
 
 
 🚀 Overview:
